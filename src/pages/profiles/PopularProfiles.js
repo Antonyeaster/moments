@@ -5,6 +5,7 @@ import { axiosReq } from '../../api/axiosDefaults';
 import { useCurrentUser } from '../../contexts/CurrentUserContext';
 import Asset from '../../components/Asset';
 import Profile from './Profile';
+import { useProfileData } from '../../contexts/ProfileDataContext';
 
 const PopularProfiles = ({ mobile }) => {
     const [profileData, setProfileData] = useState({
@@ -12,7 +13,7 @@ const PopularProfiles = ({ mobile }) => {
         pageProfile: { results: [] },
         popularProfiles: { results: [] },
     });
-    const { popularProfiles } = profileData;
+    const { popularProfiles } = useProfileData();
     const currentUser = useCurrentUser();
 
     useEffect(() => {
