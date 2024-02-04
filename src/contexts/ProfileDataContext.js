@@ -1,16 +1,16 @@
-import { createContext, useState, useContext, useEffect, } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 import { axiosReq } from "../api/axiosDefaults";
-import { useCurrentUser } from "./CurrentUserContext";
+import { useCurrentUser } from "../contexts/CurrentUserContext";
 
-export const ProfileDataContext = createContext();
-export const SetProfileDataContext = createContext();
+const ProfileDataContext = createContext();
+const SetProfileDataContext = createContext();
 
 export const useProfileData = () => useContext(ProfileDataContext);
 export const useSetProfileData = () => useContext(SetProfileDataContext);
 
-export const ProfileDataProvided = ({ children }) => {
+export const ProfileDataProvider = ({ children }) => {
   const [profileData, setProfileData] = useState({
-    // we will use the pageProfile later
+    // we will use the pageProfile later!
     pageProfile: { results: [] },
     popularProfiles: { results: [] },
   });
@@ -31,14 +31,15 @@ export const ProfileDataProvided = ({ children }) => {
         console.log(err);
       }
     };
+
     handleMount();
   }, [currentUser]);
+
   return (
     <ProfileDataContext.Provider value={profileData}>
-        <SetProfileDataContext.Provider value={setProfileData}>
-            {children}
-        </SetProfileDataContext.Provider>
+      <SetProfileDataContext.Provider value={setProfileData}>
+        {children}
+      </SetProfileDataContext.Provider>
     </ProfileDataContext.Provider>
-  )
-}
-
+  );
+};
